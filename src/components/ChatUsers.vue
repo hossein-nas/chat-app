@@ -1,0 +1,109 @@
+<template>
+  <div class="ChatUsers rounded-xl shadow">
+    <div class="ChatUsers__action-area p-6 h-[78px] items-center space-x-4">
+      <a-switch v-model:checked="unreadToggle"></a-switch>
+      <span class="text-sm text-gray-500">
+
+        Unread Only
+      </span>
+    </div>
+
+    <div class="ChatUsers__list">
+      <div
+        v-for="(item,ind) in Array(6).fill(null)"
+        :key="ind"
+        class="item py-3 px-6 max-w-[100%] hover:bg-gray-100 cursor-pointer"
+      >
+        <div class="thumb w-[56px] h-[56px] rounded-full bg-red-200 flex-shrink-0">
+          <img
+            :src="`/imgs/profile0${(ind % 3) + 1}.png`"
+            alt="user"
+          >
+        </div>
+        <div class="text">
+          <h3 class="name text-md font-bold text-gray-700">
+            Kaiya Rhiel Madsen
+          </h3>
+          <p class="caption leading-4 truncate text-sm text-gray-500 mb-0">
+            I need a link to the print the paper on the table
+          </p>
+        </div>
+        <div class="detail min-w-[40px] flex-shrink-0 flex flex-col justify-stretch align-stretch self-stretch">
+          <span class="time text-sm text-gray-500">13:09</span>
+          <span class="status flex-grow flex justify-center items-center">
+            <span class="tick inline-block text-center">
+              <svg
+                width="17"
+                height="8"
+                viewBox="0 0 17 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 4.06122L4.33871 7L10 1"
+                  stroke="#1E98BE"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7 4.06122L10.3387 7L16 1"
+                  stroke="#1E98BE"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  name: 'ChatUsers',
+  setup (props) {
+    const unreadToggle = ref<boolean>(false)
+
+    return {
+      unreadToggle
+    }
+  }
+})
+//
+</script>
+
+<style scoped lang="less">
+@chat-user-bg: #fff;
+@switch-bg: #e6e6e6;
+@switch-color: #C6C6C6;
+
+.ChatUsers {
+  background-color: @chat-user-bg;
+  height: calc( var(--main-section-height) + 78px - 16px);
+  margin-top: -78px;
+
+  :deep(.ant-switch:not(.ant-switch-checked)){
+    @apply bg-[@switch-bg] focus:shadow-none;
+  }
+
+  .item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px minmax(auto, 240px) 40px;
+    align-items: center;
+    gap: 16px;
+
+    &:not(:last-of-type){
+      &::after{
+        @apply block absolute left-6 right-6 bottom-0 ~'h-[1px]' bg-gray-100;
+        content:'';
+      }
+    }
+  }
+}
+</style>
