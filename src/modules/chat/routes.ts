@@ -23,6 +23,16 @@ export default [
         }
       }
     ]
+  },
+  {
+    name: 'user-profile',
+    path: '/user/profile',
+    component: () => import('./views/UserProfile.vue')
+  },
+  {
+    name: 'add-user',
+    path: '/user/add/',
+    component: () => import('./views/AddUser.vue')
   }
 
 ] as RouteRecordRaw[]

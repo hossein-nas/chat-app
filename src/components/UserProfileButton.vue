@@ -43,36 +43,38 @@ export default defineComponent({
       <template #overlay>
         <div class="bg-white rounded-md shadow-md min-w-[12rem]">
           <a-list class="UserProfileButton__list">
-            <a-list-item>
-              <a-list-item-meta>
-                <template #title>
-                  <span class="block font-medium text-gray-700 leading-6">Add User </span>
-                </template>
-                <template #avatar>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  ><circle
-                    cx="24"
-                    cy="12"
-                    r="8"
-                    stroke="#333"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /><path
-                    d="M42 44c0-9.941-8.059-18-18-18S6 34.059 6 44M19 39h10M24 34v10"
-                    stroke="#333"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg>
-                </template>
-              </a-list-item-meta>
-            </a-list-item>
+            <router-link :to="{ name: 'add-user'}">
+              <a-list-item>
+                <a-list-item-meta>
+                  <template #title>
+                    <span class="block font-medium text-gray-700 leading-6">Add User </span>
+                  </template>
+                  <template #avatar>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 48 48"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    ><circle
+                      cx="24"
+                      cy="12"
+                      r="8"
+                      stroke="#333"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /><path
+                      d="M42 44c0-9.941-8.059-18-18-18S6 34.059 6 44M19 39h10M24 34v10"
+                      stroke="#333"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg>
+                  </template>
+                </a-list-item-meta>
+              </a-list-item>
+            </router-link>
             <router-link :to="{name:'user-profile'}">
               <a-list-item>
                 <a-list-item-meta>
