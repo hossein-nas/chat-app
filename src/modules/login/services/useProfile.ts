@@ -16,6 +16,10 @@ export default function () {
 }
 
 async function updateProfile (userData: IUserProfile) {
+  if (!('photoUrl' in userData)) {
+    // @ts-ignore
+    userData.photoUrl = '/imgs/person.svg'
+  }
   return await setDoc(getUserProfileRef(), userData)
 }
 

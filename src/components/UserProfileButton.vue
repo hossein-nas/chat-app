@@ -73,44 +73,46 @@ export default defineComponent({
                 </template>
               </a-list-item-meta>
             </a-list-item>
-            <a-list-item>
-              <a-list-item-meta>
-                <template #title>
-                  <span class="block font-medium text-gray-700 leading-6">Show Profile</span>
-                </template>
-                <template #avatar>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  ><path
-                    fill="#fff"
-                    fill-opacity=".01"
-                    d="M0 0h48v48H0z"
-                  /><path
-                    clip-rule="evenodd"
-                    d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4 4 12.954 4 24s8.954 20 20 20Z"
-                    stroke="#333"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /><path
-                    d="M24 23a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
-                    stroke="#333"
-                    stroke-width="4"
-                    stroke-linejoin="round"
-                  /><path
-                    d="M10.022 38.332C10.366 33.121 14.702 29 20 29h8c5.291 0 9.623 4.11 9.977 9.311"
-                    stroke="#333"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg>
-                </template>
-              </a-list-item-meta>
-            </a-list-item>
+            <router-link :to="{name:'user-profile'}">
+              <a-list-item>
+                <a-list-item-meta>
+                  <template #title>
+                    <span class="block font-medium text-gray-700 leading-6">Show Profile</span>
+                  </template>
+                  <template #avatar>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 48 48"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    ><path
+                      fill="#fff"
+                      fill-opacity=".01"
+                      d="M0 0h48v48H0z"
+                    /><path
+                      clip-rule="evenodd"
+                      d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4 4 12.954 4 24s8.954 20 20 20Z"
+                      stroke="#333"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /><path
+                      d="M24 23a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+                      stroke="#333"
+                      stroke-width="4"
+                      stroke-linejoin="round"
+                    /><path
+                      d="M10.022 38.332C10.366 33.121 14.702 29 20 29h8c5.291 0 9.623 4.11 9.977 9.311"
+                      stroke="#333"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg>
+                  </template>
+                </a-list-item-meta>
+              </a-list-item>
+            </router-link>
 
             <router-link :to="{name: 'logout'}">
               <a-list-item>
