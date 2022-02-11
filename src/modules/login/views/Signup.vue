@@ -3,11 +3,11 @@ import { defineComponent, reactive } from 'vue'
 import { message } from 'ant-design-vue'
 import 'ant-design-vue/es/message/style/index.less'
 import { useForm } from 'ant-design-vue/es/form'
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth'
 import { isSignedIn } from '@/boot/firebase'
 import { useRouter } from 'vue-router'
+import { useAuth } from '@/modules/login/services/useAuth'
 
-interface ISignupForm {
+export interface ISignupForm {
   firstname: string;
   lastname: string;
   email:string;
@@ -76,38 +76,17 @@ export default defineComponent({
     const { resetFields, validate, validateInfos } = useForm(signupFormModel, signupFormRules)
 
     const onSubmit = () => {
+      const { signupUser } = useAuth()
       validate()
         .then(async (validatedFields: ISignupForm) => {
-          signupWithFirebase(validatedFields.email, validatedFields.password)
-            .then(async () => {
-              await updateUserProfile(validatedFields.firstname, validatedFields.lastname)
-              await showSuccessSignupMessage()
+          signupUser(validatedFields)
+            .then(() => {
+              showSuccessSignupMessage()
             })
-            .catch(async (e) => {
-              await showEmailExistMessage()
+            .catch(() => {
+              showEmailExistMessage()
             })
         })
-    }
-
-    const signupWithFirebase = async (email:string, password: string) => {
-      const auth = getAuth()
-      try {
-        await createUserWithEmailAndPassword(auth, email, password)
-      } catch (e) {
-        console.log('creating user error:', e.message)
-        throw new Error('Email Exist')
-      }
-    }
-
-    const updateUserProfile = async (firstname: string, lastname: string) => {
-      const auth = getAuth()!
-      try {
-        await updateProfile(auth.currentUser!, {
-          displayName: `${firstname} ${lastname}`
-        })
-      } catch (e) {
-        console.log('update profile error: ', e)
-      }
     }
 
     const showSuccessSignupMessage = async () => {

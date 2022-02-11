@@ -5,6 +5,7 @@ import * as firebase from 'firebase/auth'
 import message from 'ant-design-vue/es/message'
 import 'ant-design-vue/lib/message/style/index.less'
 import { useRouter } from 'vue-router'
+import { useAuth } from '@/modules/login/services/useAuth'
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -45,36 +46,45 @@ export default defineComponent({
     const { resetFields, validate, validateInfos } = useForm(loginFormModel, loginFormRules)
 
     const onSubmit = () => {
+      const { signInUser } = useAuth()
       validate()
         .then(({ email, password }: {email:string, password:string}) => {
-          loginWithFirebase(email, password)
+          signInUser(email, password)
+            .then(() => {
+              showSignInMessage()
+            })
+            .catch((e) => {
+              if (e.code === 'auth/user-not-found') {
+                showUserNotFoundMessage()
+              } else {
+                showUnknownErrorMessage()
+              }
+            })
         })
         .catch((errors:any) => {
           console.log('form error: ', errors)
         })
     }
 
-    const loginWithFirebase = async (email: string, password: string) => {
-      const auth = firebase.getAuth()
-      try {
-        await firebase.signInWithEmailAndPassword(auth, email, password)
-        await showSigninMessage()
-      } catch (e) {
-        alert('Error in signing in.')
-        console.log(e)
-      }
-    }
-
-    const showSigninMessage = async () => {
+    const showSignInMessage = async () => {
       message.success('You are logged in.')
       setTimeout(() => {
         router.push({ name: 'chat-index' })
       }, 2000)
     }
 
+    const showUnknownErrorMessage = async () => {
+      message.warning('An error occurred. please try again later.')
+    }
+
+    const showUserNotFoundMessage = async () => {
+      message.error('User with this email not found. Please create a new account.')
+      setTimeout(() => {
+        router.push({ name: 'signup' })
+      }, 1000)
+    }
+
     onMounted(() => {
-      const auth = firebase.getAuth()
-      firebase.signOut(auth)
       console.log(firebase.getAuth())
       console.log(firebase)
     })
