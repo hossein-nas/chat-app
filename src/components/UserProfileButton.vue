@@ -1,15 +1,30 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onBeforeMount, ref } from 'vue'
+import useProfile, { IUserProfile } from '@/modules/login/services/useProfile'
 
 export default defineComponent({
   name: 'UserProfileButton',
   setup (props) {
+    const { getUserProfile } = useProfile()
+    const user = ref<IUserProfile>()
+
+    onBeforeMount(async () => {
+      user.value = await getUserProfile()
+    })
+
+    return {
+      user
+    }
   }
 })
 </script>
 
 <template>
-  <div class="UserProfileButton">
+  <div
+    class="UserProfileButton"
+    v-cloak
+    v-if="user"
+  >
     <a-dropdown
       :placement="'bottomRight'"
       trigger="click"
@@ -17,11 +32,13 @@ export default defineComponent({
       <div class="button flex items-center flex-row-reverse group cursor-pointer">
         <div class="user w-10 h-10 rounded-full bg-red-100 group-hover:ring-2 group-hover:ring-white/50">
           <img
-            src="/imgs/user_profile.png"
+            :src="user?.photoUrl"
             alt="user_profile"
           >
         </div>
-        <span class="mr-2 font-bold text-sm group-hover:underline">Omar Levin</span>
+        <span class="mr-2 font-bold text-sm group-hover:underline">
+          {{ user?.firstname }} {{ user?.lastname }}
+        </span>
       </div>
       <template #overlay>
         <div class="bg-white rounded-md shadow-md min-w-[12rem]">

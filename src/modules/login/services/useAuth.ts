@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { ISignupForm } from '@/modules/login/views/Signup.vue'
+import useProfile from '@/modules/login/services/useProfile'
 
 export function useAuth () {
   return {
@@ -26,11 +27,13 @@ async function signInUser (email: string, password: string) {
 async function signupUser (userData: ISignupForm) {
   return new Promise((resolve, reject) => {
     const auth = getAuth()
+    const { initProfile } = useProfile()
     createUserWithEmailAndPassword(auth, userData.email, userData.password)
-      .then(() => {
-        updateProfile(auth.currentUser!, {
+      .then(async () => {
+        await updateProfile(auth.currentUser!, {
           displayName: `${userData.firstname} ${userData.lastname}`
         })
+        await initProfile(userData)
 
         resolve(true)
       })
