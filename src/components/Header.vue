@@ -43,15 +43,7 @@ export default defineComponent({
         <user-profile-button></user-profile-button>
       </div>
 
-      <div class="chat-info-section h-[78px]">
-        <a-row :gutter="16">
-          <a-col
-            :span="16"
-            :push="8"
-          >
-            test
-          </a-col>
-        </a-row>
+      <div class="chat-info-section h-[78px] mb-[-78px]">
       </div>
     </div>
   </nav>

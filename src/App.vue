@@ -1,25 +1,13 @@
 <script setup lang="ts">
-import Header from './components/Header.vue'
-import ChatUsers from './components/ChatUsers.vue'
 </script>
 
 <template>
-  <Header />
-  <div class="MainSection h-[var(--main-section-height)]">
-    <div class="container mx-auto">
-      <a-row :gutter="16">
-        <a-col :span="8">
-          <chat-users>
-          </chat-users>
-        </a-col>
-
-        <a-col :span="16"></a-col>
-      </a-row>
-    </div>
+  <div class="BaseLayout">
+    <router-view />
   </div>
 </template>
 
-<style>
+<style lang="less">
 :root {
   --main-section-height: calc(100vh - 160px);
 }

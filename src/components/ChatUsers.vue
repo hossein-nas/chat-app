@@ -85,7 +85,6 @@ export default defineComponent({
 .ChatUsers {
   background-color: @chat-user-bg;
   height: calc( var(--main-section-height) + 78px - 16px);
-  margin-top: -78px;
 
   :deep(.ant-switch:not(.ant-switch-checked)){
     @apply bg-[@switch-bg] focus:shadow-none;
