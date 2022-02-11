@@ -94,33 +94,36 @@ export default defineComponent({
                 </template>
               </a-list-item-meta>
             </a-list-item>
-            <a-list-item>
-              <a-list-item-meta>
-                <template #title>
-                  <span class="block font-medium text-red-500 leading-6">Logout</span>
-                </template>
-                <template #avatar>
-                  <svg
-                    width="20"
-                    class="text-red-500"
-                    height="20"
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  ><path
-                    fill="#fff"
-                    fill-opacity=".01"
-                    d="M0 0h48v48H0z"
-                  /><path
-                    d="M23.992 6H6v36h18M33 33l9-9-9-9M16 23.992h26"
-                    stroke="currentColor"
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg>
-                </template>
-              </a-list-item-meta>
-            </a-list-item>
+
+            <router-link :to="{name: 'logout'}">
+              <a-list-item>
+                <a-list-item-meta>
+                  <template #title>
+                    <span class="block font-medium text-red-500 leading-6">Logout</span>
+                  </template>
+                  <template #avatar>
+                    <svg
+                      width="20"
+                      class="text-red-500"
+                      height="20"
+                      viewBox="0 0 48 48"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    ><path
+                      fill="#fff"
+                      fill-opacity=".01"
+                      d="M0 0h48v48H0z"
+                    /><path
+                      d="M23.992 6H6v36h18M33 33l9-9-9-9M16 23.992h26"
+                      stroke="currentColor"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg>
+                  </template>
+                </a-list-item-meta>
+              </a-list-item>
+            </router-link>
           </a-list>
         </div>
       </template>
