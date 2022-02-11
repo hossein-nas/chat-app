@@ -1,11 +1,34 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
+import { message } from 'ant-design-vue'
+import 'ant-design-vue/es/message/style/index.less'
 import { useForm } from 'ant-design-vue/es/form'
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth'
+import { isSignedIn } from '@/boot/firebase'
+import { useRouter } from 'vue-router'
+
+interface ISignupForm {
+  firstname: string;
+  lastname: string;
+  email:string;
+  password: string;
+}
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Signup',
+
+  async beforeRouteEnter (to, from, next) {
+    const signedIn = await isSignedIn()
+    if (signedIn.value) {
+      next({ name: 'chat-index' })
+      return
+    }
+    next()
+  },
   setup (props) {
+    const router = useRouter()
+
     const signupFormModel = reactive({
       email: '',
       firstname: '',
@@ -52,11 +75,62 @@ export default defineComponent({
 
     const { resetFields, validate, validateInfos } = useForm(signupFormModel, signupFormRules)
 
+    const onSubmit = () => {
+      validate()
+        .then(async (validatedFields: ISignupForm) => {
+          signupWithFirebase(validatedFields.email, validatedFields.password)
+            .then(async () => {
+              await updateUserProfile(validatedFields.firstname, validatedFields.lastname)
+              await showSuccessSignupMessage()
+            })
+            .catch(async (e) => {
+              await showEmailExistMessage()
+            })
+        })
+    }
+
+    const signupWithFirebase = async (email:string, password: string) => {
+      const auth = getAuth()
+      try {
+        await createUserWithEmailAndPassword(auth, email, password)
+      } catch (e) {
+        console.log('creating user error:', e.message)
+        throw new Error('Email Exist')
+      }
+    }
+
+    const updateUserProfile = async (firstname: string, lastname: string) => {
+      const auth = getAuth()!
+      try {
+        await updateProfile(auth.currentUser!, {
+          displayName: `${firstname} ${lastname}`
+        })
+      } catch (e) {
+        console.log('update profile error: ', e)
+      }
+    }
+
+    const showSuccessSignupMessage = async () => {
+      message.success('Your signup process has completed.')
+      setTimeout(() => {
+        router.push({ name: 'chat-index' })
+      }, 2000)
+    }
+
+    const showEmailExistMessage = async () => {
+      message.success('Your email exists already. Please Login')
+      await setTimeout(() => {
+        router.push({ name: 'login' })
+      }, 2000)
+    }
+
     return {
       signupFormModel,
       signupFormRules,
       resetFields,
-      validateInfos
+      validateInfos,
+      isSignedIn,
+      onSubmit
     }
   }
 })
@@ -122,6 +196,7 @@ export default defineComponent({
             <a-button
               class="w-full bg-primary leading-4 py-3 h-[auto] mt-2"
               type="primary"
+              @click.prevent="onSubmit"
             >
               Register
             </a-button>
