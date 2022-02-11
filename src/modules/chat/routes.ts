@@ -13,6 +13,14 @@ export default [
           sidebar: () => import('@/components/ChatUsers.vue'),
           default: () => import('./views/ChatIndex.vue')
         }
+      },
+      {
+        path: ':chatId',
+        name: 'chat-page',
+        components: {
+          sidebar: () => import('@/components/ChatUsers.vue'),
+          default: () => import('./views/ChatPage.vue')
+        }
       }
     ]
   }

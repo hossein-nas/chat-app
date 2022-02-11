@@ -9,7 +9,8 @@
     </div>
 
     <div class="ChatUsers__list">
-      <div
+      <router-link
+        :to="{name: 'chat-page', params: { chatId: ind}}"
         v-for="(item,ind) in Array(6).fill(null)"
         :key="ind"
         class="item py-3 px-6 max-w-[100%] hover:bg-gray-100 cursor-pointer"
@@ -21,7 +22,7 @@
           >
         </div>
         <div class="text">
-          <h3 class="name text-md font-bold text-gray-700">
+          <h3 class="name text-md font-semibold text-gray-700">
             Kaiya Rhiel Madsen
           </h3>
           <p class="caption leading-4 truncate text-sm text-gray-500 mb-0">
@@ -56,7 +57,7 @@
             </span>
           </span>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>

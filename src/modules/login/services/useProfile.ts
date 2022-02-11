@@ -1,7 +1,7 @@
 import { ISignupForm } from '@/modules/login/views/Signup.vue'
 import { getFirestore, doc, collection, setDoc, getDoc } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
-export type IUserProfile = Omit<ISignupForm, 'password' | 'email'> & {
+export type IUserProfile = Omit<ISignupForm, 'password'> & {
       age: string|null;
       bio : string;
       photoUrl: string;
@@ -34,6 +34,7 @@ async function initProfile (userData: ISignupForm) {
     bio: '',
     firstname: userData.firstname,
     lastname: userData.lastname,
+    email: userData.email,
     age: null,
     photoUrl: '/imgs/person.svg'
   } as IUserProfile)
@@ -42,5 +43,5 @@ async function initProfile (userData: ISignupForm) {
 function getUserProfileRef () {
   const db = getFirestore()
   const auth = getAuth()
-  return doc(collection(db, 'userProfile'), auth.currentUser?.uid)
+  return doc(collection(db, 'users'), auth.currentUser?.uid)
 }

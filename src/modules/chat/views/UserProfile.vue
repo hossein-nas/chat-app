@@ -20,6 +20,7 @@ export default defineComponent({
       lastname: '',
       age: '',
       bio: '',
+      email: '',
       photoUrl: ''
     })
 
@@ -40,6 +41,7 @@ export default defineComponent({
           trigger: 'change'
         }
       ],
+      email: [],
       bio: [],
       age: []
     })
