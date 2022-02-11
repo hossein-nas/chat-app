@@ -50,7 +50,7 @@ export default defineComponent({
           <a-input
             class="rounded-full h-[auto] py-3 px-4 text-md text-gray-700 leading-4 mb-4"
             v-model:value="inputModel"
-            placeholder="Type email or username..."
+            placeholder="Type email address..."
           ></a-input>
         </div>
 

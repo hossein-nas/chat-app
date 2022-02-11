@@ -17,6 +17,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'vue/html-self-closing': 'off'
+    'vue/html-self-closing': 'off',
+    camelcase: 'off'
   }
 }

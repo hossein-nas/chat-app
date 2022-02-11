@@ -72,8 +72,6 @@ export default defineComponent({
 
     onBeforeMount(() => {
       initProfileFormModel()
-      const { getChatMessagesByUserId, sendMessage, getUserChatMessage } = useSendMessage()
-      sendMessage('Tzi5L0xZj4UiFDCogjmafKfCED02', 'salam')
     })
 
     return {

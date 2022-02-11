@@ -28,7 +28,7 @@ export default defineComponent({
         {{ chat.message }}
       </div>
       <div class="info flex flex-row-reverse space-x-2 items-center px-1">
-        <span class="time text-sm">{{ decorateDateTimeToTime(chat.created_at.toDate()) }}</span>
+        <span class="time text-sm">{{ chat.created_at && decorateDateTimeToTime(chat.created_at.toDate()) }}</span>
       </div>
     </div>
   </div>

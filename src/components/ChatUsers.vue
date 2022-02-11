@@ -10,23 +10,24 @@
 
     <div class="ChatUsers__list">
       <router-link
-        :to="{name: 'chat-page', params: { chatId: ind}}"
-        v-for="(item,ind) in Array(6).fill(null)"
-        :key="ind"
+        :to="{name: 'chat-page', params: { chatId: chat.uid}}"
+        v-for="(chat,ind) in chatList"
+        :key="chat.uid"
         class="item py-3 px-6 max-w-[100%] hover:bg-gray-100 cursor-pointer"
       >
         <div class="thumb w-[56px] h-[56px] rounded-full bg-red-200 flex-shrink-0">
-          <img
-            :src="`/imgs/profile0${(ind % 3) + 1}.png`"
-            alt="user"
+          <a-avatar
+            :size="56"
+            :src="chat.user.photoUrl"
           >
+          </a-avatar>
         </div>
         <div class="text">
           <h3 class="name text-md font-semibold text-gray-700">
-            Kaiya Rhiel Madsen
+            {{ chat.user.firstname }} {{ chat.user.lastname }}
           </h3>
           <p class="caption leading-4 truncate text-sm text-gray-500 mb-0">
-            I need a link to the print the paper on the table
+            {{ chat.last_message_text }}
           </p>
         </div>
         <div class="detail min-w-[40px] flex-shrink-0 flex flex-col justify-stretch align-stretch self-stretch">
@@ -63,15 +64,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
+import useSendMessage from '@/modules/chat/services/useSendMessage'
+import { ChatList } from '@/modules/chat/types'
 
 export default defineComponent({
   name: 'ChatUsers',
   setup (props) {
+    const { getUserChatList } = useSendMessage()
     const unreadToggle = ref<boolean>(false)
 
+    const chatList = ref<ChatList>([])
+
+    onMounted(() => {
+      getUserChatList((_chatList: ChatList) => {
+        chatList.value = _chatList
+      })
+    })
+
     return {
-      unreadToggle
+      unreadToggle,
+      chatList
     }
   }
 })
