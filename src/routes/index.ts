@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
+import { LoginRoutes } from '@/modules/login'
+
 const routes: RouteRecordRaw[] = [
+  ...LoginRoutes,
   {
     path: '/auth/:pathMatch(.*)*',
     name: 'Auth-NotFound',
