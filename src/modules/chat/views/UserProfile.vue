@@ -5,6 +5,7 @@ import message from 'ant-design-vue/es/message'
 import 'ant-design-vue/es/message/style/index.less'
 import { useForm } from 'ant-design-vue/es/form'
 import useProfile, { IUserProfile } from '@/modules/login/services/useProfile'
+import useSendMessage from '@/modules/chat/services/useSendMessage'
 
 export default defineComponent({
   name: 'UserProfile',
@@ -71,6 +72,8 @@ export default defineComponent({
 
     onBeforeMount(() => {
       initProfileFormModel()
+      const { getChatMessagesByUserId, sendMessage, getUserChatMessage } = useSendMessage()
+      sendMessage('Tzi5L0xZj4UiFDCogjmafKfCED02', 'salam')
     })
 
     return {
