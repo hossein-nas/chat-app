@@ -83,12 +83,6 @@ export default defineComponent({
         router.push({ name: 'signup' })
       }, 1000)
     }
-
-    onMounted(() => {
-      console.log(firebase.getAuth())
-      console.log(firebase)
-    })
-
     return {
       loginFormModel,
       loginFormRules,

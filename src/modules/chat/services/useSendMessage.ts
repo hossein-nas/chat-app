@@ -35,7 +35,6 @@ export default function () {
 async function sendMessage (userId: string, message: string) {
   const user : IUserProfile = await getUserByUserId(userId)
   if (user) {
-    console.log('Sending message', userId, message)
     const userChatRef = getChatsRef()
     await addDoc(
       userChatRef,
