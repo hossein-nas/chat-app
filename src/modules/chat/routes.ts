@@ -9,6 +9,7 @@ export default [
       {
         path: '',
         name: 'chat-index',
+        meta: { requiresAuth: true },
         components: {
           sidebar: () => import('@/components/ChatUsers.vue'),
           default: () => import('./views/ChatIndex.vue')
@@ -17,6 +18,7 @@ export default [
       {
         path: ':chatId',
         name: 'chat-page',
+        meta: { requiresAuth: true },
         components: {
           sidebar: () => import('@/components/ChatUsers.vue'),
           default: () => import('./views/ChatPage.vue')
@@ -27,11 +29,13 @@ export default [
   {
     name: 'user-profile',
     path: '/user/profile',
+    meta: { requiresAuth: true },
     component: () => import('./views/UserProfile.vue')
   },
   {
     name: 'add-user',
     path: '/user/add/',
+    meta: { requiresAuth: true },
     component: () => import('./views/AddUser.vue')
   }
 

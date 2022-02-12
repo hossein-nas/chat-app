@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import { LoginRoutes } from '@/modules/login'
 import { ChatRoutes } from '@/modules/chat'
+import { isSignedIn } from '@/boot/firebase'
+import { store as _store } from '@/store'
 
 const routes: RouteRecordRaw[] = [
   ...LoginRoutes,
@@ -21,6 +23,26 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  const signedIn = await isSignedIn()
+
+  // For routes which need to be authenticated
+  if (to.meta.requiresAuth && !signedIn.value) {
+    return next({ name: 'login' })
+  }
+
+  // To prevent entering routes which not allowed when user is authenticated
+  if (to.meta.requiresAuth === false && signedIn.value) {
+    return next({ name: 'chat-index' })
+  }
+
+  if (signedIn.value) {
+    await _store.dispatch('init')
+  }
+
+  next()
 })
 
 export default router
