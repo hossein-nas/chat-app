@@ -1,12 +1,17 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onBeforeMount } from 'vue'
 import TheHeader from '@/components/Header.vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'ChatBaseLayout',
   components: { TheHeader },
   setup (props, _) {
+    const store = useStore()
 
+    onBeforeMount(() => {
+      store.dispatch('Chat/fetchChatList')
+    })
   }
 })
 </script>

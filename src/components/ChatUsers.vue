@@ -1,11 +1,20 @@
 <template>
   <div class="ChatUsers rounded-xl shadow">
     <div class="ChatUsers__action-area p-6 h-[78px] items-center space-x-4">
-      <a-switch v-model:checked="unreadToggle"></a-switch>
-      <span class="text-sm text-gray-500">
+      <!--      <a-switch v-model:checked="unreadToggle"></a-switch>-->
+      <!--      <span class="text-sm text-gray-500">-->
 
-        Unread Only
-      </span>
+      <!--        Unread Only-->
+      <!--      </span>-->
+      <h3 class="text-lg text-bold font-bold text-gray-700 flex justify-between items-center">
+        Chat List
+        <small
+          class="text-gray-500 ml-2 font-normal"
+          v-if="chatList.length"
+        >
+          ( {{ chatList.length }} )
+        </small>
+      </h3>
     </div>
 
     <div class="ChatUsers__list">
@@ -31,31 +40,11 @@
           </p>
         </div>
         <div class="detail min-w-[40px] flex-shrink-0 flex flex-col justify-stretch align-stretch self-stretch">
-          <span class="time text-sm text-gray-500">13:09</span>
-          <span class="status flex-grow flex justify-center items-center">
-            <span class="tick inline-block text-center">
-              <svg
-                width="17"
-                height="8"
-                viewBox="0 0 17 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1 4.06122L4.33871 7L10 1"
-                  stroke="#1E98BE"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M7 4.06122L10.3387 7L16 1"
-                  stroke="#1E98BE"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-            </span>
+          <span class="time text-sm text-gray-500">
+            {{ decorateDateTimeToTime(chat.last_message_at.toDate(), 'short') }}
+          </span>
+          <span class="status flex-grow flex justify-center items-center text-blue-400">
+            <!--            <done-all />-->
           </span>
         </div>
       </router-link>
@@ -64,27 +53,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
-import useSendMessage from '@/modules/chat/services/useSendMessage'
-import { ChatList } from '@/modules/chat/types'
+import { computed, defineComponent, onBeforeMount, onUnmounted, ref } from 'vue'
+import { decorateDateTimeToTime } from '@/modules/chat/utils'
+import { DoneAll } from '@icon-park/vue-next'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'ChatUsers',
+
+  components: { DoneAll },
+
   setup (props) {
-    const { getUserChatList } = useSendMessage()
+    const store = useStore()
     const unreadToggle = ref<boolean>(false)
 
-    const chatList = ref<ChatList>([])
+    const chatList = computed(() => store.getters['Chat/chatList'])
 
-    onMounted(() => {
-      getUserChatList((_chatList: ChatList) => {
-        chatList.value = _chatList
-      })
+    onBeforeMount(() => {
+      store.commit('Chat/ENABLE_SEARCHBOX')
+    })
+
+    onUnmounted(() => {
+      store.commit('Chat/DISABLE_SEARCHBOX')
     })
 
     return {
       unreadToggle,
-      chatList
+      chatList,
+      decorateDateTimeToTime
     }
   }
 })
@@ -116,6 +112,10 @@ export default defineComponent({
         @apply block absolute left-6 right-6 bottom-0 ~'h-[1px]' bg-gray-100;
         content:'';
       }
+    }
+
+    &.router-link-active{
+      @apply bg-primary/10;
     }
   }
 }

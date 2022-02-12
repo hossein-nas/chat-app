@@ -1,3 +1,6 @@
+import { ChatList } from '@/modules/chat/types'
+
 export interface IChatState {
-    messages: any
+    chatList: ChatList,
+    showSearchBox: boolean,
 }

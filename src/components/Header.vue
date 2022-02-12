@@ -1,10 +1,22 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import UserProfileButton from './UserProfileButton.vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'TheHeader',
-  components: { UserProfileButton }
+  components: { UserProfileButton },
+  setup () {
+    const store = useStore()
+
+    const showSearchbox = computed(() => store.getters['Chat/showSearchBox'])
+    const init = computed(() => store.getters.init)
+
+    return {
+      showSearchbox,
+      init
+    }
+  }
 })
 </script>
 
@@ -12,7 +24,7 @@ export default defineComponent({
   <nav class="bg-primary text-white">
     <div class="container mx-auto">
       <div class="upper-section flex items-center justify-between py-4">
-        <div class="logo text-white flex items-center">
+        <div class="logo text-white flex items-center h-[55px]">
           <router-link :to="{ name: 'chat-index'}">
             <svg
               width="30"
@@ -34,7 +46,10 @@ export default defineComponent({
           <span class="ml-2 select-none pointer-events-none">WhatsApp</span>
         </div>
 
-        <div class="search-box min-w-[60%]">
+        <div
+          class="search-box min-w-[60%]"
+          v-show="showSearchbox"
+        >
           <a-input
             class=""
             placeholder="Search Messages"
@@ -42,7 +57,7 @@ export default defineComponent({
           />
         </div>
 
-        <user-profile-button></user-profile-button>
+        <user-profile-button v-if="init"></user-profile-button>
       </div>
 
       <div class="chat-info-section h-[78px] mb-[-78px]">
