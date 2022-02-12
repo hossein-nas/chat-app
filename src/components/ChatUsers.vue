@@ -67,7 +67,7 @@ export default defineComponent({
     const store = useStore()
     const unreadToggle = ref<boolean>(false)
 
-    const chatList = computed(() => store.getters['Chat/chatList'])
+    const chatList = computed(() => store.getters['Chat/filteredChatList'])
 
     onBeforeMount(() => {
       store.commit('Chat/ENABLE_SEARCHBOX')

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import UserProfileButton from './UserProfileButton.vue'
 import { useStore } from '@/store'
 
@@ -9,12 +9,22 @@ export default defineComponent({
   setup () {
     const store = useStore()
 
+    const searchInput = computed({
+      get () {
+        return store.getters['Chat/searchTerm']
+      },
+      set (val) {
+        store.commit('Chat/SET_SEARCH_TERM', val)
+      }
+    })
+
     const showSearchbox = computed(() => store.getters['Chat/showSearchBox'])
     const init = computed(() => store.getters.init)
 
     return {
       showSearchbox,
-      init
+      init,
+      searchInput
     }
   }
 })
@@ -52,7 +62,8 @@ export default defineComponent({
         >
           <a-input
             class=""
-            placeholder="Search Messages"
+            v-model:value="searchInput"
+            placeholder="Search in user chat list..."
             type="text"
           />
         </div>

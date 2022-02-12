@@ -11,5 +11,8 @@ export default {
   },
   DISABLE_SEARCHBOX (state) {
     state.showSearchBox = false
+  },
+  SET_SEARCH_TERM (state, term : string = '') {
+    state.searchTerm = term
   }
 } as MutationTree<IChatState>
