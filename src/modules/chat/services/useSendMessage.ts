@@ -20,16 +20,11 @@ type GroupedMessages = { [key: string] : CustomMessage[] };
 
 export default function () {
   return {
-    getChatMessagesByUserId,
     getUserByUserId,
     getUserChatMessage,
     sendMessage,
     getUserChatList
   }
-}
-
-async function getChatMessagesByUserId (userId: string) {
-  const user : IUserProfile = await getUserByUserId(userId)
 }
 
 async function sendMessage (userId: string, message: string) {
@@ -47,10 +42,10 @@ async function sendMessage (userId: string, message: string) {
 async function getUserChatList (callback: Function = () => {}) {
   const messages = ref<IMessage[]>([])
   const userChatRef = getChatsRef()
-  const userUID = await getAuthUserId()
+  const authUID = await getAuthUserId()
 
-  const q1 = query(userChatRef, where('sender', '==', userUID))
-  const q2 = query(userChatRef, where('receiver', '==', userUID))
+  const q1 = query(userChatRef, where('sender', '==', authUID))
+  const q2 = query(userChatRef, where('receiver', '==', authUID))
 
   // eslint-disable-next-line no-array-constructor
   Array(q1, q2).forEach((query) => {
@@ -65,7 +60,7 @@ async function getUserChatList (callback: Function = () => {}) {
         }
       })
 
-      const groupedMessages = groupMessagesByUser(pickUniqueMessages(messages.value), userUID)
+      const groupedMessages = groupMessagesByUser(pickUniqueMessages(messages.value), authUID)
 
       createChatListFromMessages(groupedMessages)
         .then((data) => {
@@ -80,13 +75,13 @@ async function getUserChatList (callback: Function = () => {}) {
 async function getUserChatMessage (userId: string, callback : Function = () => {}) {
   const messages = ref<IMessage[]>([])
   const userChatRef = getChatsRef()
-  const userUID = await getAuthUserId()
+  const authUID = await getAuthUserId()
 
-  const q1 = query(userChatRef, where('sender', '==', userId), where('receiver', '==', userUID))
-  const q2 = query(userChatRef, where('sender', '==', userUID), where('receiver', '==', userId))
+  const objectedMessages = query(userChatRef, where('sender', '==', userId), where('receiver', '==', authUID))
+  const subjectedMessages = query(userChatRef, where('sender', '==', authUID), where('receiver', '==', userId))
 
   // eslint-disable-next-line no-array-constructor
-  Array(q1, q2).forEach((query) => {
+  Array(objectedMessages, subjectedMessages).forEach((query) => {
     const unsubscribe = onSnapshot(query, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (!doc.metadata.hasPendingWrites) {
