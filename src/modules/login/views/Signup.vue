@@ -180,6 +180,16 @@ export default defineComponent({
             >
               Register
             </a-button>
+            <p class="text-right text-sm leading-4 mt-2">
+              In case have any account? Login
+              <router-link
+                :to="{ name: 'login'}"
+                class="text-primary"
+              >
+                here
+              </router-link>
+              .
+            </p>
           </a-form>
         </div>
       </a-col>
