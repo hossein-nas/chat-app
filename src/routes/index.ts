@@ -9,6 +9,10 @@ const routes: RouteRecordRaw[] = [
   ...LoginRoutes,
   ...ChatRoutes,
   {
+    path: '/',
+    redirect: { name: 'chat-index' }
+  },
+  {
     path: '/auth/:pathMatch(.*)*',
     name: 'Auth-NotFound',
     redirect: () => ({ name: 'login' })
