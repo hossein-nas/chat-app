@@ -10,6 +10,11 @@ export function useAuth () {
   }
 }
 
+/**
+ * Sign in user by email.
+ * @param email
+ * @param password
+ */
 async function signInUser (email: string, password: string) {
   return new Promise((resolve, reject) => {
     const auth = getAuth()
@@ -25,12 +30,19 @@ async function signInUser (email: string, password: string) {
   })
 }
 
+/**
+ * Get authenticated user.
+ */
 async function getAuthedUser () {
   const auth = await getAuth()
 
   return auth.currentUser
 }
 
+/**
+ * Sign up new user using ISignupForm interface
+ * @param userData
+ */
 async function signupUser (userData: ISignupForm) {
   return new Promise((resolve, reject) => {
     const auth = getAuth()

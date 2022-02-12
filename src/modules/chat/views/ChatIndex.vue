@@ -14,7 +14,7 @@ export default defineComponent({
 
 <template>
   <div class="ChatIndex">
-    <a-empty></a-empty>
+    <a-empty :description="''"></a-empty>
   </div>
 </template>
 

@@ -12,11 +12,14 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     redirect: { name: 'chat-index' }
   },
+  // Auth wild card
   {
     path: '/auth/:pathMatch(.*)*',
     name: 'Auth-NotFound',
     redirect: () => ({ name: 'login' })
   },
+
+  // All route wild card.
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
@@ -30,6 +33,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  // fetching signedIn status from firebase
   const signedIn = await isSignedIn()
 
   // For routes which need to be authenticated

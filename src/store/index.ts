@@ -17,6 +17,7 @@ export const store = createStore<IState>({
   }
 })
 
+// Sugar of useStore with key passed in.
 export function useStore () {
   return baseUseStore(key)
 }

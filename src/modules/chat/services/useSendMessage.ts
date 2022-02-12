@@ -27,6 +27,11 @@ export default function () {
   }
 }
 
+/**
+ * Sending message hook using userId (firebase) and message text.
+ * @param userId
+ * @param message
+ */
 async function sendMessage (userId: string, message: string) {
   const user : IUserProfile = await getUserByUserId(userId)
   if (user) {
@@ -39,6 +44,10 @@ async function sendMessage (userId: string, message: string) {
   }
 }
 
+/**
+ * Getting user chat list.
+ * @param callback
+ */
 async function getUserChatList (callback: Function = () => {}) {
   const messages = ref<IMessage[]>([])
   const userChatRef = getChatsRef()
@@ -72,6 +81,11 @@ async function getUserChatList (callback: Function = () => {}) {
   })
 }
 
+/**
+ * Fetching chat conversation.
+ * @param userId
+ * @param callback
+ */
 async function getUserChatMessage (userId: string, callback : Function = () => {}) {
   const messages = ref<IMessage[]>([])
   const userChatRef = getChatsRef()
@@ -104,14 +118,27 @@ async function getUserChatMessage (userId: string, callback : Function = () => {
   })
 }
 
+/**
+ * Filtering retreiverd user messages uniquely
+ * @param messages
+ */
 const pickUniqueMessages = (messages: IMessage[]) => {
   return uniqBy(messages, (message) => message._id)
 }
 
+/**
+ * Order user message by created_at
+ * @param messages
+ */
 const orderMessages = (messages: IMessage[]) => {
   return orderBy(messages, ['created_at'], ['asc'])
 }
 
+/**
+ * Grouping each users conversation.
+ * @param messages
+ * @param userId
+ */
 const groupMessagesByUser = (messages:IMessage[], userId: string) => {
   const newMessages : CustomMessage[] = messages.map((message) => {
     const uid = message.sender === userId ? message.receiver : message.sender

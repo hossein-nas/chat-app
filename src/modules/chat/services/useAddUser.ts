@@ -9,6 +9,10 @@ export default function () {
   }
 }
 
+/**
+ * Find user by email address
+ * @param email
+ */
 async function findUserByEmail (email: string) {
   const response: UserSearchResult[] = []
   const q = query(getUsersRef(),

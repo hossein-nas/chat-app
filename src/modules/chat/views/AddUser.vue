@@ -17,7 +17,7 @@ export default defineComponent({
 
     watch(inputModel, async (val) => {
       if (val.length > 3) {
-        foundUser.value = await findUserByEmail(val)
+        foundUser.value = await findUserByEmail(val.toLowerCase().trim())
       } else {
         reset()
       }

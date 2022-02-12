@@ -6,6 +6,7 @@ import { init } from '@/boot/firebase'
 
 import './assets/css/index.css'
 
+// Initializing App after initializing firebase.
 init(() => {
   createApp(App)
     .use(router)
