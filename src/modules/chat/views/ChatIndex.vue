@@ -5,7 +5,9 @@ export default defineComponent({
   name: 'ChatIndex',
 
   setup (props) {
-
+    return {
+      //
+    }
   }
 })
 </script>

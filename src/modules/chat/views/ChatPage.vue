@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUpdated, ref, watch } from 'vue'
-import { MoreOne, Send } from '@icon-park/vue-next'
+import { computed, defineComponent, onMounted, ref } from 'vue'
+import { Close, MoreOne, Send } from '@icon-park/vue-next'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import useSendMessage from '@/modules/chat/services/useSendMessage'
 import { IMessage } from '@/modules/chat/types'
@@ -16,7 +16,8 @@ export default defineComponent({
     ChatSender,
     ChatReceiver,
     MoreOne,
-    Send
+    Send,
+    Close
   },
 
   setup (props, _) {
@@ -124,12 +125,37 @@ export default defineComponent({
       </div>
 
       <div class="actions flex items-center">
-        <a-button class="bg-transparent w-[auto] h-[auto] rounded-md py-2 px-1 shadow-none hover:shadow-none border-0 focus:shadow-none text-white hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white flex items-center justify-center">
-          <more-one
-            :size="28"
-            :stroke-width="8"
-          />
-        </a-button>
+        <a-dropdown
+          placement="bottomRight"
+          trigger="click"
+        >
+          <a-button class="bg-transparent w-[auto] h-[auto] rounded-md py-2 px-1 shadow-none hover:shadow-none border-0 focus:shadow-none text-white hover:text-white hover:bg-white/10 focus:bg-white/10 focus:text-white flex items-center justify-center">
+            <more-one
+              :size="28"
+              :stroke-width="8"
+            />
+          </a-button>
+          <template #overlay>
+            <div class="bg-white rounded-md shadow-md min-w-[12rem]">
+              <a-list>
+                <router-link :to="{ name: 'chat-index'}">
+                  <a-list-item>
+                    <a-list-item-meta>
+                      <template #title>
+                        <span class="block font-medium text-gray-700 leading-6">Close chat</span>
+                      </template>
+                      <template #avatar>
+                        <span class="w-6 h-6 ml-2 -mr-2 flex items-center justify-center">
+                          <close size="18" />
+                        </span>
+                      </template>
+                    </a-list-item-meta>
+                  </a-list-item>
+                </router-link>
+              </a-list>
+            </div>
+          </template>
+        </a-dropdown>
       </div>
     </div>
 
@@ -155,6 +181,7 @@ export default defineComponent({
       <div class="SendInputBox flex space-x-2 items-center px-10">
         <a-input
           placeholder="Message"
+          @keypress.enter="handleSendMessage"
           v-model:value="inputRef"
           class="text-base placeholder:text-gray-400 h-[auto] px-4 py-3 bg-black/5 border-none hover:border-none focus:border-none focus:shadow-none  rounded-full"
         ></a-input>

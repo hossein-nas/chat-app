@@ -168,6 +168,7 @@ export default defineComponent({
             >
               <a-input
                 type="password"
+                @keypress.enter="onSubmit"
                 v-model:value="signupFormModel.password"
               ></a-input>
             </a-form-item>
