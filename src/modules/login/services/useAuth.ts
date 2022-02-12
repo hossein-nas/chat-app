@@ -5,7 +5,8 @@ import useProfile from '@/modules/login/services/useProfile'
 export function useAuth () {
   return {
     signInUser,
-    signupUser
+    signupUser,
+    getAuthedUser
   }
 }
 
@@ -13,8 +14,8 @@ async function signInUser (email: string, password: string) {
   return new Promise((resolve, reject) => {
     const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        resolve(null)
+      .then((userCredentials) => {
+        resolve(userCredentials)
       })
       .catch((e) => {
         // console.log(e)
@@ -22,6 +23,12 @@ async function signInUser (email: string, password: string) {
         reject(e)
       })
   })
+}
+
+async function getAuthedUser () {
+  const auth = await getAuth()
+
+  return auth.currentUser
 }
 
 async function signupUser (userData: ISignupForm) {

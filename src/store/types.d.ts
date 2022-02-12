@@ -1,4 +1,7 @@
-import { UserInfo } from 'firebase/auth'
+import { User } from 'firebase/auth'
+import { IUserProfile } from '@/modules/login/services/useProfile'
 export interface IState {
-    user : UserInfo | null
+    user : User | null,
+    userProfile: IUserProfile | null,
+    initilized: boolean,
 }

@@ -1,16 +1,13 @@
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref } from 'vue'
-import useProfile, { IUserProfile } from '@/modules/login/services/useProfile'
+import { computed, defineComponent } from 'vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'UserProfileButton',
   setup (props) {
-    const { getUserProfile } = useProfile()
-    const user = ref<IUserProfile>()
+    const store = useStore()
 
-    onBeforeMount(async () => {
-      user.value = await getUserProfile()
-    })
+    const user = computed(() => store.getters.userProfile)
 
     return {
       user
